@@ -1,0 +1,108 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "name": "efe8992a54690b206095",
+  "position": {
+    "x": 13.251851319289669,
+    "y": 526.76108994176434,
+    "z": 10000,
+    "height": 193.80832554461139,
+    "width": 523.44812711194186,
+    "tabOrder": 10000
+  },
+  "visual": {
+    "visualType": "columnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "pharmacy_sales_2020-2024"
+                    }
+                  },
+                  "Property": "Age Group"
+                }
+              },
+              "queryRef": "pharmacy_sales_2020-2024.Age Group",
+              "nativeQueryRef": "Age Group",
+              "active": true
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "pharmacy_sales_2020-2024"
+                    }
+                  },
+                  "Property": "Customer_Gender"
+                }
+              },
+              "queryRef": "pharmacy_sales_2020-2024.Customer_Gender",
+              "nativeQueryRef": "Customer_Gender"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "pharmacy_sales_2020-2024"
+                    }
+                  },
+                  "Property": "Total Prescriptions"
+                }
+              },
+              "queryRef": "pharmacy_sales_2020-2024.Total Prescriptions",
+              "nativeQueryRef": "Total Prescriptions"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "pharmacy_sales_2020-2024"
+                  }
+                },
+                "Property": "Total Prescriptions"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

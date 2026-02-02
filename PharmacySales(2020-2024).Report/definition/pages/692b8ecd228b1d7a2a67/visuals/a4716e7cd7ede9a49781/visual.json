@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "name": "a4716e7cd7ede9a49781",
+  "position": {
+    "x": 639.40182615572644,
+    "y": 99.388884894672515,
+    "z": 2000,
+    "height": 112.64073621396217,
+    "width": 279.94535911999424,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "pharmacy_sales_2020-2024"
+                    }
+                  },
+                  "Property": "Top Medicine"
+                }
+              },
+              "queryRef": "pharmacy_sales_2020-2024.Top Medicine",
+              "nativeQueryRef": "Top Medicine"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

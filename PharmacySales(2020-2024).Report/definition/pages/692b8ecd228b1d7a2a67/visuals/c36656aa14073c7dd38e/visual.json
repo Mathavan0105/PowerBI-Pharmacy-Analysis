@@ -1,0 +1,194 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.5.0/schema.json",
+  "name": "c36656aa14073c7dd38e",
+  "position": {
+    "x": 536.69997843123156,
+    "y": 526.76108994176434,
+    "z": 11000,
+    "height": 193.80832554461139,
+    "width": 743.76015529513256,
+    "tabOrder": 11000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pharmacy_sales_2020-2024"
+                        }
+                      },
+                      "Property": "Prescription_ID"
+                    }
+                  },
+                  "Function": 5
+                }
+              },
+              "queryRef": "CountNonNull(pharmacy_sales_2020-2024.Prescription_ID)",
+              "nativeQueryRef": "Count of Prescription_ID"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pharmacy_sales_2020-2024"
+                        }
+                      },
+                      "Property": "Customer_ID"
+                    }
+                  },
+                  "Function": 5
+                }
+              },
+              "queryRef": "CountNonNull(pharmacy_sales_2020-2024.Customer_ID)",
+              "nativeQueryRef": "Count of Customer_ID"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pharmacy_sales_2020-2024"
+                        }
+                      },
+                      "Property": "Doctor_ID"
+                    }
+                  },
+                  "Function": 5
+                }
+              },
+              "queryRef": "CountNonNull(pharmacy_sales_2020-2024.Doctor_ID)",
+              "nativeQueryRef": "Count of Doctor_ID"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pharmacy_sales_2020-2024"
+                        }
+                      },
+                      "Property": "Customer_Age"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(pharmacy_sales_2020-2024.Customer_Age)",
+              "nativeQueryRef": "Sum of Customer_Age"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "pharmacy_sales_2020-2024"
+                    }
+                  },
+                  "Property": "Medicine_Name"
+                }
+              },
+              "queryRef": "pharmacy_sales_2020-2024.Medicine_Name",
+              "nativeQueryRef": "Medicine_Name"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "pharmacy_sales_2020-2024"
+                        }
+                      },
+                      "Property": "Quantity_Sold"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(pharmacy_sales_2020-2024.Quantity_Sold)",
+              "nativeQueryRef": "Sum of Quantity_Sold"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "3D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "divider": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

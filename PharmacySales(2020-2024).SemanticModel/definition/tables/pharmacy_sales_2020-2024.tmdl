@@ -1,0 +1,324 @@
+table pharmacy_sales_2020-2024
+	lineageTag: 7380119d-93d5-4531-af12-cad18fd3789d
+
+	measure 'Total Sales' = SUMX('pharmacy_sales_2020-2024', 'pharmacy_sales_2020-2024'[Quantity_Sold] * 'pharmacy_sales_2020-2024'[Price])
+		lineageTag: f44db6c7-58ab-423b-b49a-24ee5b2c0759
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total Prescriptions' = ```
+			DISTINCTCOUNT('pharmacy_sales_2020-2024'[Prescription_ID])
+			
+			```
+		formatString: 0
+		lineageTag: ed06fffc-aafa-4a0e-9d7b-183c3f814c61
+
+	measure 'Avg Sale per Prescription' = DIVIDE([Total Sales], [Total Prescriptions], 0)
+		lineageTag: 6b3fb2d5-915f-4620-ac2a-86b4c4037acd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'YoY Sales Growth' =
+			
+			VAR CurrentYear = YEAR(MAX('pharmacy_sales_2020-2024'[Date]))
+			VAR CurrentSales = CALCULATE([Total Sales], YEAR('pharmacy_sales_2020-2024'[Date]) = CurrentYear)
+			VAR PrevSales = CALCULATE([Total Sales], YEAR('pharmacy_sales_2020-2024'[Date]) = CurrentYear - 1)
+			RETURN DIVIDE(CurrentSales - PrevSales, PrevSales, 0)
+		lineageTag: 7ec75608-1e45-4b35-9363-d46eec5c84a0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Monthly Sales' =
+			
+			CALCULATE(
+			    [Total Sales],DATESMTD('pharmacy_sales_2020-2024'[Date]))
+		lineageTag: a160982c-f095-447f-afc5-4e3c50d0834d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Cumulative Sales' =
+			
+			CALCULATE(
+			    [Total Sales],
+			    FILTER(
+			        ALL('pharmacy_sales_2020-2024'[Date]),
+			        'pharmacy_sales_2020-2024'[Date] <= MAX('pharmacy_sales_2020-2024'[Date])
+			    )
+			)
+		lineageTag: 6dbf314d-a676-41b0-b0f1-fe84a6a9793d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Top Medicine' = ```
+			
+			VAR TopMed =
+			    TOPN (
+			        1,
+			        SUMMARIZE (
+			            'pharmacy_sales_2020-2024',
+			            'pharmacy_sales_2020-2024'[Medicine_Name],
+			            "TotalSales", [Total Sales]
+			        ),
+			        [TotalSales], DESC
+			    )
+			RETURN
+			MAXX ( TopMed, 'pharmacy_sales_2020-2024'[Medicine_Name] )
+			
+			```
+		lineageTag: 213d95d4-d71b-4e60-81c8-5e0bc0f9bf9e
+
+	measure 'Sales by Gender' = ```
+			
+			CALCULATE (
+			    [Total Sales],
+			    ALLEXCEPT ( 'pharmacy_sales_2020-2024', 'pharmacy_sales_2020-2024'[Customer_Gender] )
+			)
+			
+			```
+		lineageTag: 1ee39b82-383c-4bd7-8545-6c0955387479
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Prescriptions per Customer' = ```
+			
+			DIVIDE(
+			    [Total Prescriptions],
+			    DISTINCTCOUNT('pharmacy_sales_2020-2024'[Customer_ID]),
+			    BLANK()
+			)
+			
+			```
+		lineageTag: 7adf6020-1bcf-4cbf-a428-ddab00fb3a21
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Top Doctor' = ```
+			
+			VAR TopDoctorTable =
+			    TOPN(
+			        1,
+			        SUMMARIZE(
+			            'pharmacy_sales_2020-2024',
+			            'pharmacy_sales_2020-2024'[Doctor_ID],
+			            "TotalPrescriptions", [Total Prescriptions]
+			        ),
+			        [TotalPrescriptions],
+			        DESC
+			    )
+			RETURN
+			MAXX(TopDoctorTable, 'pharmacy_sales_2020-2024'[Doctor_ID])
+			
+			
+			```
+		formatString: 0
+		lineageTag: 079e36e4-8d3b-45f1-97e4-42c7068e9f6d
+
+	measure 'Total Customers' = ```
+			
+			DISTINCTCOUNT('pharmacy_sales_2020-2024'[Customer_ID])
+			
+			```
+		formatString: 0
+		lineageTag: 6bab18cc-68f0-4154-84f8-ca43b78aba6e
+
+	measure 'Total Doctors' =
+			
+			DISTINCTCOUNT('pharmacy_sales_2020-2024'[Doctor_ID])
+		formatString: 0
+		lineageTag: b0317a87-b67d-4edd-854b-8689f184bb96
+
+	measure 'Total Profit' = SUM('pharmacy_sales_2020-2024'[Profit Margin])
+		lineageTag: 8124dd29-0672-4b38-9631-2a7cf66fb6d7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Projected Sales' = ```
+			
+			VAR GrowthRate = 0.05  // average monthly growth
+			RETURN [Total Sales] * (1 + GrowthRate)
+			
+			```
+		lineageTag: 7e976f45-d000-4f07-a817-345e188930ee
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Top 5 Doctors' =
+			
+			TOPN(
+			    5,
+			    SUMMARIZE(
+			        'pharmacy_sales_2020-2024',
+			        'pharmacy_sales_2020-2024'[Doctor_ID],
+			        "DoctorSales", [Total Sales]
+			    ),
+			    [DoctorSales],
+			    DESC
+			)
+			RETURN
+			MAXX(TopDoctorTable, 'pharmacy_sales_2020-2024'[Doctor_ID])
+		lineageTag: 0ec8b1b1-1929-47d7-b57e-d5761ce72407
+
+	measure 'Profit Margin %' = ```
+			
+			DIVIDE([Total Profit], [Total Sales], 0)
+			
+			```
+		lineageTag: 51b8ce93-fabb-4ada-bbd3-77d3c5021e3d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 3d099de6-1c31-47e8-8c83-c828d7dc938f
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: c117f7f6-ce74-4e42-8828-7e9b0494440e
+			defaultHierarchy: LocalDateTable_1332588c-cbd9-45e2-a63b-ef28ebbee044.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Medicine_Name
+		dataType: string
+		lineageTag: 483fc64d-8eac-4597-8116-c61a3084f8c8
+		summarizeBy: none
+		sourceColumn: Medicine_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: 9df0ac13-c920-4b36-ad17-2a4b54f5ff90
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Customer_ID
+		dataType: int64
+		formatString: 0
+		lineageTag: f5640adf-d848-4521-ad95-d58812a45ce7
+		summarizeBy: count
+		sourceColumn: Customer_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Customer_Age
+		dataType: int64
+		formatString: 0
+		lineageTag: b32246bd-3b3b-4242-bd17-eb8b2b427317
+		summarizeBy: sum
+		sourceColumn: Customer_Age
+
+		annotation SummarizationSetBy = Automatic
+
+	column Customer_Gender
+		dataType: string
+		lineageTag: 418d95e9-412a-4cdc-88bb-77bb3ec95287
+		summarizeBy: none
+		sourceColumn: Customer_Gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column Doctor_ID
+		dataType: int64
+		formatString: 0
+		lineageTag: edd6c5fb-cf20-4c42-be60-b67a4650f865
+		summarizeBy: count
+		sourceColumn: Doctor_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Prescription_ID
+		dataType: int64
+		formatString: 0
+		lineageTag: ecf08431-f0bb-40e9-8936-063a3563e9fc
+		summarizeBy: count
+		sourceColumn: Prescription_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantity_Sold
+		dataType: int64
+		formatString: 0
+		lineageTag: fd61f93d-2105-4ac4-9a46-7413bbdd69e1
+		summarizeBy: sum
+		sourceColumn: Quantity_Sold
+
+		annotation SummarizationSetBy = Automatic
+
+	column Price
+		dataType: double
+		lineageTag: 0a9cda0c-5b7f-423a-8208-73cf07e7bbda
+		summarizeBy: sum
+		sourceColumn: Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Sale_Amount
+		dataType: double
+		lineageTag: 86c63517-bab0-41d1-a729-7ba8408a377a
+		summarizeBy: sum
+		sourceColumn: Sale_Amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Age Group' =
+			
+			SWITCH(
+			    TRUE(),
+			    'pharmacy_sales_2020-2024'[Customer_Age] < 18, "Under 18",
+			    'pharmacy_sales_2020-2024'[Customer_Age] >= 18 && 'pharmacy_sales_2020-2024'[Customer_Age] <= 30, "18-30",
+			    'pharmacy_sales_2020-2024'[Customer_Age] > 30 && 'pharmacy_sales_2020-2024'[Customer_Age] <= 45, "31-45",
+			    'pharmacy_sales_2020-2024'[Customer_Age] > 45 && 'pharmacy_sales_2020-2024'[Customer_Age] <= 60, "46-60",
+			    "60+"
+			)
+		lineageTag: 1dfec186-0a9c-4c87-838c-6a98d24125ee
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Profit Margin' = ('pharmacy_sales_2020-2024'[Price] * 0.3) * 'pharmacy_sales_2020-2024'[Quantity_Sold]
+		lineageTag: 4cebe9b3-583c-46cc-8179-d0a16e1f01ef
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Prescription Size' =
+			
+			SWITCH(
+			    TRUE(),
+			    'pharmacy_sales_2020-2024'[Quantity_Sold] = 1, "Small",
+			    'pharmacy_sales_2020-2024'[Quantity_Sold] = 2 || 'pharmacy_sales_2020-2024'[Quantity_Sold] = 3, "Medium",
+			    "Large"
+			)
+		lineageTag: e29f0d35-b011-4689-80f2-695dd7444070
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition pharmacy_sales_2020-2024 = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\matha\Downloads\pharmacy_sales_2020_2024.csv"),[Delimiter=",", Columns=11, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Date", type date}, {"Medicine_Name", type text}, {"Category", type text}, {"Customer_ID", Int64.Type}, {"Customer_Age", Int64.Type}, {"Customer_Gender", type text}, {"Doctor_ID", Int64.Type}, {"Prescription_ID", Int64.Type}, {"Quantity_Sold", Int64.Type}, {"Price", type number}, {"Sale_Amount", type number}})
+				in
+				    #"Changed Type"
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Table
+

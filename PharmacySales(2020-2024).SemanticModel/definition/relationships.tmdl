@@ -1,0 +1,5 @@
+relationship c117f7f6-ce74-4e42-8828-7e9b0494440e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: pharmacy_sales_2020-2024.Date
+	toColumn: LocalDateTable_1332588c-cbd9-45e2-a63b-ef28ebbee044.Date
+

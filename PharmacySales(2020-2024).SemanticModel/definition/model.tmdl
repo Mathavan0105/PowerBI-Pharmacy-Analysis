@@ -1,0 +1,20 @@
+model Model
+	culture: en-GB
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-IN
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["pharmacy_sales_2020-2024"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table pharmacy_sales_2020-2024
+ref table DateTableTemplate_23738dc8-5e68-4c42-ba82-e72882204481
+ref table LocalDateTable_1332588c-cbd9-45e2-a63b-ef28ebbee044
+
+ref cultureInfo en-GB
+

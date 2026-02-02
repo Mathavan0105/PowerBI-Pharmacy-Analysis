@@ -1,0 +1,48 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
+  "name": "692b8ecd228b1d7a2a67",
+  "displayName": "Prescription Trends",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "5ee95ad866702006cd87",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "pharmacy_sales_2020-2024"
+              }
+            },
+            "Property": "Customer_Gender"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "Drillthrough"
+      }
+    ]
+  },
+  "pageBinding": {
+    "name": "71fcab8e5b7b448328d4",
+    "type": "Drillthrough",
+    "parameters": [
+      {
+        "name": "8a0bab04b0db59761174",
+        "boundFilter": "5ee95ad866702006cd87",
+        "fieldExpr": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "pharmacy_sales_2020-2024"
+              }
+            },
+            "Property": "Customer_Gender"
+          }
+        }
+      }
+    ],
+    "referenceScope": "CrossReport"
+  }
+}

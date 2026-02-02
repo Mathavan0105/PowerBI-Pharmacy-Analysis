@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "PharmacySales(2020-2024)"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "dbd16ab0-939f-476b-8bf4-fb4f80ffb5a0"
+  }
+}

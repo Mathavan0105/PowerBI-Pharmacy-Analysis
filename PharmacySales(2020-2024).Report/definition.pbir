@@ -1,0 +1,8 @@
+{
+  "version": "4.0",
+  "datasetReference": {
+    "byPath": {
+      "path": "../PharmacySales(2020-2024).SemanticModel"
+    }
+  }
+}

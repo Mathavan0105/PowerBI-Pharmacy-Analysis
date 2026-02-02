@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "PharmacySales(2020-2024)"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "d8d1e959-58a6-4ac7-a5bb-5f7e22f040cd"
+  }
+}
